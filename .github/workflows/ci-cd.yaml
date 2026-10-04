@@ -77,6 +77,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install Yandex Cloud CLI
+        run: |
+          curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /home/runner/yandex-cloud -n
+          echo "/home/runner/yandex-cloud/bin" >> $GITHUB_PATH
+
       - name: Install kubectl
         uses: azure/setup-kubectl@v4
         with:
@@ -87,6 +92,19 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
+          # Заменяем путь к yc на установленный в GitHub Actions
+          sed -i 's|/home/dudnikov-daniil/yandex-cloud/bin/yc|/home/runner/yandex-cloud/bin/yc|g' ~/.kube/config
+          # Проверяем, что путь заменился
+          grep -i "yc" ~/.kube/config | head -5
+
+      - name: Setup YC CLI with SA key
+        run: |
+          echo '${{ secrets.YC_SA_KEY_JSON }}' > /tmp/sa-key.json
+          chmod 600 /tmp/sa-key.json
+          /home/runner/yandex-cloud/bin/yc config profile create sa-profile
+          /home/runner/yandex-cloud/bin/yc config set service-account-key /tmp/sa-key.json
+          /home/runner/yandex-cloud/bin/yc config profile activate sa-profile
+          rm -f /tmp/sa-key.json
 
       - name: Verify cluster connection
         run: kubectl get nodes
