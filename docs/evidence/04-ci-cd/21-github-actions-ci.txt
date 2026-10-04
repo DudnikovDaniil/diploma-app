@@ -1,0 +1,12 @@
+=== GitHub Actions CI Pipeline ===
+Workflow: CI/CD Pipeline #4
+Commit: 12bdd76 (Fix: disable attestations and correct indentation for YCR)
+Trigger: push to main
+Status: Success
+Duration: 35s
+Job 1: Build and Push Docker Image (31s) — SUCCESS
+Job 2: Deploy to Kubernetes — skipped (only on tags)
+
+=== Annotations (warnings, not errors) ===
+1. Node.js 20 deprecated — GitHub will auto-migrate
+2. ubuntu-latest → Ubuntu 26 — informational notice

@@ -1,0 +1,14 @@
+=== Pods after CD ===
+NAME                           READY   STATUS    RESTARTS   AGE
+diploma-app-7f4b967f86-9fb4m   1/1     Running   0          10m
+diploma-app-7f4b967f86-q4mqf   1/1     Running   0          10m
+
+=== Deployment image ===
+    Image:      cr.yandex/crp35inad6caauskik6q/diploma-app:1.0.1
+
+=== curl /health ===
+healthy
+
+=== GitHub repo ===
+https://github.com/DudnikovDaniil/diploma-app
+Commits: 8 | Branches: 1 | Tags: 1 (v1.0.1)

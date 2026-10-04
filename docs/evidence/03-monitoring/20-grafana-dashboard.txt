@@ -1,0 +1,22 @@
+=== Grafana Ingress ===
+NAME      CLASS   HOSTS                       ADDRESS           PORTS   AGE
+grafana   nginx   grafana.diploma-app.local   158.160.223.221   80      15m
+
+=== Monitoring Pods ===
+NAME                                                       READY   STATUS             RESTARTS      AGE
+alertmanager-kube-prometheus-stack-alertmanager-0          2/2     Running            0             20m
+kube-prometheus-stack-grafana-6468db9564-sgsl4             2/3     CrashLoopBackOff   4 (70s ago)   20m
+kube-prometheus-stack-kube-state-metrics-875d5cb5f-cfjz6   1/1     Running            0             20m
+kube-prometheus-stack-operator-54d9675d97-pjw7b            1/1     Running            0             20m
+kube-prometheus-stack-prometheus-node-exporter-4d7j7       1/1     Running            0             20m
+kube-prometheus-stack-prometheus-node-exporter-7nzw4       1/1     Running            0             20m
+kube-prometheus-stack-prometheus-node-exporter-r69q2       1/1     Running            0             20m
+prometheus-kube-prometheus-stack-prometheus-0              2/2     Running            0             20m
+
+=== curl Grafana ===
+HTTP/1.1 503 Service Temporarily Unavailable
+Date: Sat, 03 Oct 2026 16:20:19 GMT
+Content-Type: text/html
+Content-Length: 190
+Connection: keep-alive
+

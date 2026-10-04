@@ -1,0 +1,19 @@
+id: catpe030qfgu6q37hq97
+folder_id: b1g6a8ilj1m6pl5so99m
+created_at: "2026-10-03T10:54:30Z"
+name: diploma-k8s
+description: Diploma Managed Kubernetes cluster
+status: RUNNING
+health: HEALTHY
+network_id: enpb3tnaqq6tq16m6fvr
+master:
+  regional_master:
+    region_id: ru-central1
+    internal_v4_address: 10.10.1.7
+    external_v4_address: 158.160.173.200
+  locations:
+    - zone_id: ru-central1-a
+      subnet_id: e9b7dh024ed998ibcv3t
+    - zone_id: ru-central1-b
+      subnet_id: e2l4vp2h9q8h2eu1ad1h
+    - zone_id: ru-central1-d

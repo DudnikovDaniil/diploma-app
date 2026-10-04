@@ -1,0 +1,15 @@
+yandex_iam_service_account.k8s_cluster_sa
+yandex_iam_service_account.k8s_node_sa
+yandex_kubernetes_cluster.k8s
+yandex_kubernetes_node_group.k8s_nodes
+yandex_resourcemanager_folder_iam_member.k8s_cluster_sa_roles["container-registry.images.puller"]
+yandex_resourcemanager_folder_iam_member.k8s_cluster_sa_roles["k8s.clusters.agent"]
+yandex_resourcemanager_folder_iam_member.k8s_cluster_sa_roles["k8s.tunnelClusters.agent"]
+yandex_resourcemanager_folder_iam_member.k8s_cluster_sa_roles["load-balancer.admin"]
+yandex_resourcemanager_folder_iam_member.k8s_cluster_sa_roles["vpc.publicAdmin"]
+yandex_resourcemanager_folder_iam_member.k8s_node_sa_roles["container-registry.images.puller"]
+yandex_vpc_network.main
+yandex_vpc_security_group.k8s
+yandex_vpc_subnet.subnets["subnet-a"]
+yandex_vpc_subnet.subnets["subnet-b"]
+yandex_vpc_subnet.subnets["subnet-d"]

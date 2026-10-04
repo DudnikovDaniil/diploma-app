@@ -1,0 +1,16 @@
+k8s_cluster_ca_certificate = <sensitive>
+k8s_cluster_endpoint = "https://158.160.173.200"
+k8s_cluster_id = "catpe030qfgu6q37hq97"
+k8s_node_group_id = "cato7iienrjtaffe69qh"
+k8s_sg_id = "enpndu3fjdht9scm4mg3"
+subnet_ids = {
+  "subnet-a" = "e9b7dh024ed998ibcv3t"
+  "subnet-b" = "e2l4vp2h9q8h2eu1ad1h"
+  "subnet-d" = "fl8s5hvgnkbfskm090fe"
+}
+subnet_zones = {
+  "subnet-a" = "ru-central1-a"
+  "subnet-b" = "ru-central1-b"
+  "subnet-d" = "ru-central1-d"
+}
+vpc_id = "enpb3tnaqq6tq16m6fvr"

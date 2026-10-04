@@ -1,0 +1,30 @@
+=== VPC networks ===
++----------------------+-------------+
+|          ID          |    NAME     |
++----------------------+-------------+
+| enpb3tnaqq6tq16m6fvr | diploma-vpc |
++----------------------+-------------+
+
+
+=== Subnets ===
++----------------------+-----------------------------------------------------------+----------------------+----------------+---------------+-----------------+
+|          ID          |                           NAME                            |      NETWORK ID      | ROUTE TABLE ID |     ZONE      |      RANGE      |
++----------------------+-----------------------------------------------------------+----------------------+----------------+---------------+-----------------+
+| e2l4vp2h9q8h2eu1ad1h | subnet-b                                                  | enpb3tnaqq6tq16m6fvr |                | ru-central1-b | [10.10.2.0/24]  |
+| e9b0ogi41i1562alu17n | k8s-cluster-catpe030qfgu6q37hq97-pod-cidr-reservation     | enpb3tnaqq6tq16m6fvr |                | ru-central1-a | [10.112.0.0/16] |
+| e9b7dh024ed998ibcv3t | subnet-a                                                  | enpb3tnaqq6tq16m6fvr |                | ru-central1-a | [10.10.1.0/24]  |
+| e9bvmk7a2eq65qkf4s1b | k8s-cluster-catpe030qfgu6q37hq97-service-cidr-reservation | enpb3tnaqq6tq16m6fvr |                | ru-central1-a | [10.96.0.0/16]  |
+| fl8s5hvgnkbfskm090fe | subnet-d                                                  | enpb3tnaqq6tq16m6fvr |                | ru-central1-d | [10.10.3.0/24]  |
++----------------------+-----------------------------------------------------------+----------------------+----------------+---------------+-----------------+
+
+
+=== Security groups ===
++----------------------+---------------------------------+--------------------------------+----------------------+
+|          ID          |              NAME               |          DESCRIPTION           |      NETWORK-ID      |
++----------------------+---------------------------------+--------------------------------+----------------------+
+| enp5sqnqiavn239l2s8p | default-sg-enpb3tnaqq6tq16m6fvr | Default security group for     | enpb3tnaqq6tq16m6fvr |
+|                      |                                 | network                        |                      |
+| enpndu3fjdht9scm4mg3 | diploma-k8s-sg                  | Security group for diploma     | enpb3tnaqq6tq16m6fvr |
+|                      |                                 | Kubernetes cluster             |                      |
++----------------------+---------------------------------+--------------------------------+----------------------+
+

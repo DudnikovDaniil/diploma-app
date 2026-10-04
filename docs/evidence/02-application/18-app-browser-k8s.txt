@@ -1,0 +1,20 @@
+=== getent hosts ===
+158.160.223.221 diploma-app.local
+158.160.223.221 diploma-app.local
+
+=== curl /health ===
+healthy
+
+=== kubectl get pods -n diploma ===
+NAME                          READY   STATUS    RESTARTS   AGE
+diploma-app-dfbb88cbc-2bhj6   1/1     Running   0          55m
+diploma-app-dfbb88cbc-2pcs5   1/1     Running   0          55m
+
+=== kubectl get ingress -n diploma ===
+NAME          CLASS   HOSTS               ADDRESS           PORTS   AGE
+diploma-app   nginx   diploma-app.local   158.160.223.221   80      54m
+
+=== kubectl get svc -n ingress-nginx ===
+NAME                                 TYPE           CLUSTER-IP     EXTERNAL-IP       PORT(S)                      AGE
+ingress-nginx-controller             LoadBalancer   10.96.196.73   158.160.223.221   80:31849/TCP,443:31525/TCP   59m
+ingress-nginx-controller-admission   ClusterIP      10.96.228.23   <none>            443/TCP                      59m

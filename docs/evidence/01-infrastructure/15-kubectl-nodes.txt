@@ -1,0 +1,4 @@
+NAME                        STATUS   ROLES    AGE    VERSION   INTERNAL-IP   EXTERNAL-IP      OS-IMAGE             KERNEL-VERSION       CONTAINER-RUNTIME
+cl1l4ns7tq7p3rbi8jli-efod   Ready    <none>   102m   v1.33.3   10.10.1.36    93.77.183.238    Ubuntu 22.04.5 LTS   5.15.0-190-generic   containerd://2.2.1
+cl1l4ns7tq7p3rbi8jli-ohab   Ready    <none>   102m   v1.33.3   10.10.3.31    158.160.182.72   Ubuntu 22.04.5 LTS   5.15.0-190-generic   containerd://2.2.1
+cl1l4ns7tq7p3rbi8jli-yrur   Ready    <none>   102m   v1.33.3   10.10.2.18    111.88.155.139   Ubuntu 22.04.5 LTS   5.15.0-190-generic   containerd://2.2.1

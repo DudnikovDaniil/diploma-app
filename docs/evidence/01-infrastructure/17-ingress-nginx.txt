@@ -1,0 +1,12 @@
+=== Pods ===
+NAME                                        READY   STATUS    RESTARTS   AGE     IP             NODE                        NOMINATED NODE   READINESS GATES
+ingress-nginx-controller-6797f4dc8c-5q9nl   1/1     Running   0          3m55s   10.112.130.4   cl1l4ns7tq7p3rbi8jli-ohab   <none>           <none>
+
+=== Services ===
+NAME                                 TYPE           CLUSTER-IP     EXTERNAL-IP       PORT(S)                      AGE
+ingress-nginx-controller             LoadBalancer   10.96.196.73   158.160.223.221   80:31849/TCP,443:31525/TCP   3m58s
+ingress-nginx-controller-admission   ClusterIP      10.96.228.23   <none>            443/TCP                      3m58s
+
+=== IngressClass ===
+NAME    CONTROLLER             PARAMETERS   AGE
+nginx   k8s.io/ingress-nginx   <none>       3m58s

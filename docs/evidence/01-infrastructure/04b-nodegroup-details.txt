@@ -1,0 +1,18 @@
+id: cato7iienrjtaffe69qh
+cluster_id: catpe030qfgu6q37hq97
+created_at: "2026-10-03T12:29:26Z"
+name: diploma-k8s-nodes
+description: Diploma K8s node group (preemptible)
+labels:
+  project: diploma
+  role: worker
+status: RUNNING
+node_template:
+  platform_id: standard-v3
+  resources_spec:
+    memory: "2147483648"
+    cores: "2"
+    core_fraction: "20"
+  boot_disk_spec:
+    disk_type_id: network-hdd
+    disk_size: "32212254720"

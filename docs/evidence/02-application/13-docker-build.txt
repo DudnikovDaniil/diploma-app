@@ -1,0 +1,30 @@
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  20.48kB
+Step 1/8 : FROM nginx:1.27-alpine
+ ---> 65645c7bb6a0
+Step 2/8 : LABEL maintainer="Dudnikov Daniil"
+ ---> Using cache
+ ---> 94cd9f25ab12
+Step 3/8 : LABEL description="Diploma DevOps test application"
+ ---> Using cache
+ ---> 491e4678d95c
+Step 4/8 : COPY nginx.conf /etc/nginx/conf.d/default.conf
+ ---> Using cache
+ ---> dcc7868018af
+Step 5/8 : COPY html/index.html /usr/share/nginx/html/index.html
+ ---> Using cache
+ ---> f38a8362db55
+Step 6/8 : EXPOSE 80
+ ---> Using cache
+ ---> 2af3b14f57dd
+Step 7/8 : HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3     CMD wget --quiet --tries=1 --spider http://localhost/health || exit 1
+ ---> Using cache
+ ---> e6bc3fbd82b1
+Step 8/8 : CMD ["nginx", "-g", "daemon off;"]
+ ---> Using cache
+ ---> 684196487911
+Successfully built 684196487911
+Successfully tagged diploma-app:local

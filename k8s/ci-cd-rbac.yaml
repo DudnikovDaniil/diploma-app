@@ -1,5 +1,13 @@
 ---
-# ClusterRole: права на чтение нод (нужно для kubectl get nodes)
+# K8s ServiceAccount для CI/CD
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ci-cd-sa
+  namespace: kube-system
+
+---
+# ClusterRole: чтение нод (для kubectl get nodes)
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -13,7 +21,7 @@ rules:
     verbs: ["get", "list"]
 
 ---
-# ClusterRoleBinding: привязка к SA
+# ClusterRoleBinding: привязка к K8s-SA
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -24,11 +32,11 @@ roleRef:
   name: ci-cd-reader
 subjects:
   - kind: ServiceAccount
-    name: github-actions-sa
+    name: ci-cd-sa
     namespace: kube-system
 
 ---
-# Role: права в namespace diploma (для деплоя)
+# Role в namespace diploma
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -46,7 +54,7 @@ rules:
     verbs: ["get", "list", "watch"]
 
 ---
-# RoleBinding: привязка к SA в namespace diploma
+# RoleBinding в namespace diploma
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -58,5 +66,5 @@ roleRef:
   name: ci-cd-deployer
 subjects:
   - kind: ServiceAccount
-    name: github-actions-sa
+    name: ci-cd-sa
     namespace: kube-system

@@ -1,0 +1,23 @@
+=== Storage buckets ===
++---------------------------------+----------------------+------------+-----------------------+---------------------+
+|              NAME               |      FOLDER ID       |  MAX SIZE  | DEFAULT STORAGE CLASS |     CREATED AT      |
++---------------------------------+----------------------+------------+-----------------------+---------------------+
+| diploma-tfstate-dudnikov-7efeef | b1g6a8ilj1m6pl5so99m | 1073741824 | STANDARD              | 2026-10-03 10:14:22 |
++---------------------------------+----------------------+------------+-----------------------+---------------------+
+
+
+=== Objects in tfstate bucket ===
+contents:
+  - key: infrastructure/terraform.tfstate
+    last_modified: "2026-10-03T12:31:07.841Z"
+    etag: '"d6b5ccc247f7cd9aacd77c16a7ef0691"'
+    size: "28475"
+    owner:
+      id: ajec1ut5puep99juohvn
+      display_name: ajec1ut5puep99juohvn
+    storage_class: STANDARD
+name: diploma-tfstate-dudnikov-7efeef
+max_keys: "1000"
+key_count: "1"
+request_id: 0708ffd58d971857
+

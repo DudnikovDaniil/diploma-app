@@ -1,0 +1,7 @@
+=== GitHub Repository ===
+URL: https://github.com/DudnikovDaniil/diploma-app
+Visibility: Public
+Branch: main
+Commits: 8
+Tags: 1 (v1.0.1)
+Contents: .github, docs, helm, html, k8s, .gitignore, Dockerfile, README.md, nginx.conf

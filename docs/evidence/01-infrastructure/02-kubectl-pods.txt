@@ -1,0 +1,18 @@
+NAMESPACE     NAME                                 READY   STATUS    RESTARTS      AGE
+kube-system   coredns-768847b69f-2rjwr             1/1     Running   0             43m
+kube-system   coredns-768847b69f-j5kfc             1/1     Running   0             136m
+kube-system   ip-masq-agent-28bd4                  1/1     Running   0             44m
+kube-system   ip-masq-agent-59nr5                  1/1     Running   0             43m
+kube-system   ip-masq-agent-hb5wn                  1/1     Running   0             44m
+kube-system   kube-dns-autoscaler-66b55897-hv67k   1/1     Running   1 (43m ago)   136m
+kube-system   kube-proxy-76wpk                     1/1     Running   0             44m
+kube-system   kube-proxy-pdrwq                     1/1     Running   0             44m
+kube-system   kube-proxy-z6skg                     1/1     Running   0             43m
+kube-system   metrics-server-8689cb9795-7tzgw      1/1     Running   1 (43m ago)   136m
+kube-system   metrics-server-8689cb9795-pq2lh      1/1     Running   1 (43m ago)   136m
+kube-system   npd-v0.8.0-cvzmj                     1/1     Running   0             44m
+kube-system   npd-v0.8.0-wx5xq                     1/1     Running   0             44m
+kube-system   npd-v0.8.0-zl2vw                     1/1     Running   0             43m
+kube-system   yc-disk-csi-node-v2-98r6h            6/6     Running   0             43m
+kube-system   yc-disk-csi-node-v2-mrgdx            6/6     Running   0             44m
+kube-system   yc-disk-csi-node-v2-xxzkh            6/6     Running   0             44m

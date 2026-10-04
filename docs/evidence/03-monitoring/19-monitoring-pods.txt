@@ -1,0 +1,25 @@
+=== Pods ===
+NAME                                                       READY   STATUS    RESTARTS   AGE
+alertmanager-kube-prometheus-stack-alertmanager-0          2/2     Running   0          2m12s
+kube-prometheus-stack-grafana-6468db9564-sgsl4             3/3     Running   0          2m14s
+kube-prometheus-stack-kube-state-metrics-875d5cb5f-cfjz6   1/1     Running   0          2m14s
+kube-prometheus-stack-operator-54d9675d97-pjw7b            1/1     Running   0          2m14s
+kube-prometheus-stack-prometheus-node-exporter-4d7j7       1/1     Running   0          2m14s
+kube-prometheus-stack-prometheus-node-exporter-7nzw4       1/1     Running   0          2m14s
+kube-prometheus-stack-prometheus-node-exporter-r69q2       1/1     Running   0          2m14s
+prometheus-kube-prometheus-stack-prometheus-0              2/2     Running   0          2m11s
+
+=== Services ===
+NAME                                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+alertmanager-operated                            ClusterIP   None            <none>        9093/TCP,9094/TCP,9094/UDP   2m14s
+kube-prometheus-stack-alertmanager               ClusterIP   10.96.171.39    <none>        9093/TCP,8080/TCP            2m16s
+kube-prometheus-stack-grafana                    ClusterIP   10.96.227.10    <none>        80/TCP                       2m16s
+kube-prometheus-stack-kube-state-metrics         ClusterIP   10.96.244.205   <none>        8080/TCP                     2m16s
+kube-prometheus-stack-operator                   ClusterIP   10.96.242.153   <none>        443/TCP                      2m16s
+kube-prometheus-stack-prometheus                 ClusterIP   10.96.176.139   <none>        9090/TCP,8080/TCP            2m16s
+kube-prometheus-stack-prometheus-node-exporter   ClusterIP   10.96.217.212   <none>        9100/TCP                     2m16s
+prometheus-operated                              ClusterIP   None            <none>        9090/TCP                     2m13s
+
+=== Helm releases ===
+NAME                 	NAMESPACE 	REVISION	UPDATED                                	STATUS  	CHART                       	APP VERSION
+kube-prometheus-stack	monitoring	1       	2026-10-03 18:59:39.493479721 +0300 MSK	deployed	kube-prometheus-stack-91.9.0	v0.94.1    
