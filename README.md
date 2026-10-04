@@ -285,6 +285,60 @@ kubectl get ingress -n diploma
 
 ---
 
+##  Итоги работы
+
+### Что сделано
+
+За время практикума **развёрнут полный DevOps-цикл** для тестового приложения:
+
+1. **Инфраструктура как код** — Terraform-модули создают VPC, 3 подсети в 3 зонах доступности, Security Group, Managed Kubernetes кластер и Node Group из 3 нод. State хранится в S3-бакете (bootstrap-модуль).
+
+2. **Контейнеризация** — приложение упаковано в Docker-образ на базе `nginx:1.27-alpine` (≈ 50 МБ), загружено в Yandex Container Registry.
+
+3. **Оркестрация** — приложение задеплоено в Managed Kubernetes (v1.33, региональный мастер). Настроены Deployment (2 реплики), Service, Ingress, RBAC для CI/CD.
+
+4. **Мониторинг** — установлен `kube-prometheus-stack`: Prometheus, Grafana, Alertmanager, Node Exporter, Kube State Metrics. Настроены дашборды и Ingress для Grafana.
+
+5. **CI/CD** — настроен GitHub Actions pipeline:
+   - **CI** — сборка и push Docker-образа при коммите в `main`.
+   - **CD** — автоматический деплой в Kubernetes при создании тега `v*.*.*`.
+
+### Чему научился
+
+- **Terraform** — IaC, remote state в S3, модульная структура, работа с провайдером Yandex Cloud.
+- **Kubernetes** — Managed K8s, Node Group, Deployment, Service, Ingress, RBAC, работа с `kubectl`.
+- **Docker** — сборка образов, multi-stage, работа с реестрами.
+- **CI/CD** — GitHub Actions, работа с секретами, автоматизация сборки и деплоя.
+- **Мониторинг** — Prometheus, Grafana, Alertmanager, готовые дашборды.
+- **Отладка** — решение реальных проблем: IPv6 в VirtualBox, IAM-роли, несовместимость тегов, RBAC для CI/CD.
+
+### Что было самым сложным
+
+| Проблема | Решение |
+|----------|---------|
+| Docker не мог скачать образы | Отключил IPv6 в `/etc/docker/daemon.json` |
+| `yc` CLI таймаутил | Отключил IPv6 в системе |
+| Node Group зависла на 43 мин | Добавил роль `compute.editor` SA нод |
+| Disk size 20 GB < min 30 GB | Увеличил до 30 GB |
+| CI/CD не мог деплоить | Настроил RBAC для `github-actions-sa` |
+| Тег образа не совпадал | Убрал `v` из версии в workflow |
+
+### Что получилось
+
+-  **3 репозитория на GitHub** — приложение, bootstrap, infrastructure.
+-  **~30 скриншотов** — полное подтверждение работы.
+-  **Работающий CI/CD** — от коммита до деплоя без ручных действий.
+-  **Полный мониторинг** — Grafana с дашбордами K8s.
+-  **Документация** — README с описанием каждого этапа.
+
+### Перспективы развития
+
+- **HashiCorp Vault** — для управления секретами.
+- **ArgoCD** — GitOps-подход для деплоя.
+- **Terraform Cloud** — управление state и планирование.
+- **Multi-environment** — dev/staging/prod.
+- **Автоскейлинг** — HPA и Cluster Autoscaler.
+
 ---
 
 ## Обучение
