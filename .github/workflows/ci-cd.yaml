@@ -58,7 +58,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          oci-mediatypes: false
+          outputs: type=image,oci-mediatypes=false,push=true
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.REGISTRY_ID }}/${{ env.IMAGE_NAME }}:latest
           cache-to: type=inline
 
