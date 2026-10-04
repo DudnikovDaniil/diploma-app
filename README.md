@@ -37,24 +37,24 @@
 │  ┌────────────────────────────────────────────────────────┐  │
 │  │  Managed Kubernetes (diploma-k8s, v1.33)               │  │
 │  │                                                        │  │
-│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐             │  │
-│  │  │  node-a  │  │  node-b  │  │  node-d  │             │  │
-│  │  │ ru-c-a   │  │ ru-c-b   │  │ ru-c-d   │             │  │
-│  │  └────┬─────┘  └────┬─────┘  └────┬─────┘             │  │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐              │  │
+│  │  │  node-a  │  │  node-b  │  │  node-d  │              │  │
+│  │  │ ru-c-a   │  │ ru-c-b   │  │ ru-c-d   │              │  │
+│  │  └────┬─────┘  └────┬─────┘  └────┬─────┘              │  │
 │  │       │             │             │                    │  │
 │  │       └──────┬──────┴──────┬──────┘                    │  │
-│  │              │             │                            │  │
+│  │              │             │                           │  │
 │  │        ┌─────▼─────┐  ┌────▼─────┐                     │  │
 │  │        │ diploma-  │  │ kube-    │                     │  │
 │  │        │ app (svc) │  │ prometh. │                     │  │
 │  │        └─────┬─────┘  └──────────┘                     │  │
-│  │              │                                          │  │
-│  └──────────────┼──────────────────────────────────────────┘  │
-│                 │                                             │
-│         ┌───────▼────────┐                                    │
-│         │  Ingress / LB  │                                    │
-│         └───────┬────────┘                                    │
-└─────────────────┼─────────────────────────────────────────────┘
+│  │              │                                         │  │
+│  └──────────────┼─────────────────────────────────────────┘  │
+│                 │                                            │
+│         ┌───────▼────────┐                                   │
+│         │  Ingress / LB  │                                   │
+│         └───────┬────────┘                                   │
+└─────────────────┼────────────────────────────────────────────┘
                   │
               ┌───▼────┐
               │ Client │
@@ -110,6 +110,12 @@ Kubernetes при деплое.
 | `terraform-infrastructure`  | VPC, K8s, Node Group                                    |
 | `diploma-app` (этот)        | Приложение, Dockerfile, K8s-манифесты, CI/CD            |
 
+**Ссылки на репозитории:**
+
+- [terraform-bootstrap](https://github.com/DudnikovDaniil/terraform-bootstrap)
+- [terraform-infrastructure](https://github.com/DudnikovDaniil/terraform-infrastructure)
+- [diploma-app](https://github.com/DudnikovDaniil/diploma-app)
+
 ### Структура `diploma-app`
 
 ```bash
@@ -125,7 +131,12 @@ Kubernetes при деплое.
 │   ├── ingress.yaml
 │   └── grafana-ingress.yaml
 ├── docs/
-│   └── screenshots/          # Скриншоты проекта
+│   ├── README.md
+│   └── evidence/             # Материалы по этапам
+│       ├── 01-infrastructure/
+│       ├── 02-application/
+│       ├── 03-monitoring/
+│       └── 04-ci-cd/
 ├── .github/
 │   └── workflows/
 │       └── ci-cd.yaml        # CI/CD pipeline
@@ -162,31 +173,84 @@ kubectl get ingress -n diploma
 
 ---
 
-## Скриншоты
+## Материалы по этапам
 
-### Инфраструктура и сборка
+Все скриншоты и логи разложены по этапам в `docs/evidence/`.
+В каждой папке — свой `README.md` с пояснениями.
 
-![Карта инфраструктуры](docs/screenshots/01-infrastructure-map.png)
-![Приложение локально](docs/screenshots/02-app-local.png)
-![Docker build](docs/screenshots/03-docker-build.png)
-![Yandex Container Registry](docs/screenshots/04-registry.png)
+### 01. Инфраструктура Yandex Cloud
 
-### Kubernetes
+- [README и подписи к скриншотам](docs/evidence/01-infrastructure/README.md)
 
-![Ingress-nginx](docs/screenshots/05-ingress.png)
-![Приложение в Kubernetes](docs/screenshots/06-app-k8s.png)
-![Ноды кластера](docs/screenshots/11-kubectl-nodes.png)
-![Поды кластера](docs/screenshots/12-kubectl-pods.png)
-![Ноды (wide)](docs/screenshots/13-nodes-wide.png)
-![Все поды](docs/screenshots/14-pods-all.png)
+![Карта инфраструктуры](docs/evidence/01-infrastructure/11-yc-console-infrastructure-map.png)
 
-### Мониторинг
+*Карта инфраструктуры в консоли Yandex Cloud: VPC, подсети, кластер, ноды.*
 
-![Grafana: CPU и Memory](docs/screenshots/07-grafana-cpu.png)
-![Grafana: Storage](docs/screenshots/08-grafana-storage.png)
-![Grafana: Networking](docs/screenshots/09-grafana-networking.png)
-![Grafana: список дашбордов](docs/screenshots/10-grafana-list.png)
-![Мониторинг](docs/screenshots/15-monitoring.png)
+![Ноды кластера](docs/evidence/01-infrastructure/01-kubectl-nodes.png)
+
+*`kubectl get nodes` — три worker-ноды в статусе Ready, по одной в каждой зоне.*
+
+![Поды в kube-system](docs/evidence/01-infrastructure/02-kubectl-pods.png)
+
+*Системные поды Kubernetes в норме — кластер готов принимать нагрузку.*
+
+---
+
+### 02. Тестовое приложение
+
+- [README и подписи к скриншотам](docs/evidence/02-application/README.md)
+
+![Приложение локально](docs/evidence/02-application/12-app-browser-local.png)
+
+*Приложение, запущенное локально через `docker run` на localhost:8080.*
+
+![Docker build](docs/evidence/02-application/13-docker-build.png)
+
+*Процесс сборки образа из Dockerfile.*
+
+![Yandex Container Registry](docs/evidence/02-application/14-yc-container-registry.png)
+
+*Образ `diploma-app:v1.0.0` в Yandex Container Registry.*
+
+![Приложение в Kubernetes](docs/evidence/02-application/18-app-browser-k8s.png)
+
+*То же приложение, но уже через ingress в кластере.*
+
+---
+
+### 03. Мониторинг
+
+- [README и подписи к скриншотам](docs/evidence/03-monitoring/README.md)
+
+![Grafana: CPU и Memory](docs/evidence/03-monitoring/20-grafana-dashboard.png)
+
+*Дашборд Grafana с графиками загрузки CPU и памяти кластера.*
+
+![Grafana: Storage](docs/evidence/03-monitoring/20a-grafana-storage.png)
+
+*Дисковые метрики — IOPS, throughput, использование места.*
+
+![Grafana: Networking](docs/evidence/03-monitoring/20b-grafana-networking.png)
+
+*Сетевые метрики — трафик, ошибки, drops.*
+
+![Grafana: список дашбордов](docs/evidence/03-monitoring/20c-grafana-dashboards-list.png)
+
+*Список готовых дашбордов из kube-prometheus-stack.*
+
+---
+
+### 04. CI/CD Pipeline
+
+- [README и подписи к скриншотам](docs/evidence/04-ci-cd/README.md)
+
+![GitHub Actions CI](docs/evidence/04-ci-cd/21-github-actions-ci.png)
+
+*CI pipeline: сборка и push образа по коммиту в `main`.*
+
+![GitHub Actions CD](docs/evidence/04-ci-cd/23-github-actions-cd.png)
+
+*CD pipeline: деплой в кластер по созданию тега `v1.0.1`.*
 
 ---
 
@@ -207,7 +271,7 @@ kubectl get ingress -n diploma
 
 ## Прогресс проекта
 
-**Текущий статус:** ~95%
+**Текущий статус:** ~100%
 
 - [x] Подготовка рабочей машины
 - [x] Bootstrap Terraform
@@ -216,21 +280,19 @@ kubectl get ingress -n diploma
 - [x] Node group (3 ноды)
 - [x] Тестовое приложение + YCR
 - [x] Мониторинг (Prometheus + Grafana + Alertmanager)
-- [ ] CI/CD (GitHub Actions)
-- [ ] Финальные скриншоты
+- [x] CI/CD (GitHub Actions)
+- [x] Финальные скриншоты и документация
 
 ---
 
-## Автор
-
-**Дудников Даниил**
-Дипломный практикум в Yandex.Cloud — 2026
-
 ---
 
-## Лицензия
+## Обучение
 
-Учебный проект, созданный в рамках дипломного практикума.
-Свободное использование в образовательных целях.
+Работа выполнена в рамках курса:
 
-© 2026, Дудников Даниил
+**DevOps-инженер с нуля: расширенный курс**
+11 апреля 2025 — 26 октября 2026
+
+- **Группа:** FOPS-41
+- **Студент:** Дудников Даниил Дмитриевич
