@@ -92,10 +92,13 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
-          # Заменяем путь к yc на установленный в GitHub Actions
+          # Заменяем путь к yc
           sed -i 's|/home/dudnikov-daniil/yandex-cloud/bin/yc|/home/runner/yandex-cloud/bin/yc|g' ~/.kube/config
-          # Проверяем, что путь заменился
-          grep -i "yc" ~/.kube/config | head -5
+          # Заменяем профиль default на sa-profile
+          sed -i 's|--profile=default|--profile=sa-profile|g' ~/.kube/config
+          sed -i 's|profile: default|profile: sa-profile|g' ~/.kube/config
+          # Проверяем
+          grep -i "profile" ~/.kube/config | head -5
 
       - name: Setup YC CLI with SA key
         run: |
@@ -104,6 +107,7 @@ jobs:
           /home/runner/yandex-cloud/bin/yc config profile create sa-profile
           /home/runner/yandex-cloud/bin/yc config set service-account-key /tmp/sa-key.json
           /home/runner/yandex-cloud/bin/yc config profile activate sa-profile
+          /home/runner/yandex-cloud/bin/yc config profile list
           rm -f /tmp/sa-key.json
 
       - name: Verify cluster connection
