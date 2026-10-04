@@ -1,0 +1,119 @@
+# ============================================================
+# Terraform
+# ============================================================
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+*.lock.hcl
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Terraform variables (секреты!)
+*.tfvars
+*.tfvars.json
+!example.tfvars
+
+# ============================================================
+# Ansible
+# ============================================================
+*.retry
+**/vagrant_ansible_inventory
+inventory/*
+!inventory/local
+!inventory/sample
+inventory/*/artifacts/
+ansible_collections/
+
+# ============================================================
+# Docker
+# ============================================================
+docker-compose.override.yml
+
+# ============================================================
+# Kubernetes
+# ============================================================
+*.kubeconfig
+kubeconfig
+kubeconfig.yaml
+
+# ============================================================
+# Секреты и ключи
+# ============================================================
+*.key
+*.pem
+*.json
+key.json
+!package.json
+!package-lock.json
+s3-access-key.env
+*.env
+.env
+.env.*
+credentials/
+credentials.json
+
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ============================================================
+# IDE
+# ============================================================
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+.tox/
+.cache/
+
+# ============================================================
+# OS
+# ============================================================
+.DS_Store
+Thumbs.db
+*.bak
+
+# ============================================================
+# Логи и временные файлы
+# ============================================================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+tmp/
+temp/
+scripts/tmp/
+tmp.md
+
+# ============================================================
+# Прочее
+# ============================================================
+plugins/mitogen
+vagrant/

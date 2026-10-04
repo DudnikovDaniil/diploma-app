@@ -1,0 +1,20 @@
+alertmanager:
+  alertmanagerSpec:
+    image:
+      registry: quay.io
+      repository: prometheus/alertmanager
+      tag: v0.28.1
+
+grafana:
+  sidecar:
+    skipTlsVerify: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  grafana.ini:
+    database:
+      transaction_retries: 10
