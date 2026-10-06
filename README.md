@@ -254,6 +254,20 @@ kubectl get ingress -n diploma
 
 ---
 
+### 05. Статический анализ Terraform (TFLint + Checkov)
+
+- [README и подписи к скриншотам](docs/evidence/05-terraform-checks/README.md)
+
+![Terraform Checks — infrastructure](docs/evidence/05-terraform-checks/27-terraform-checks.png)
+
+*TFLint, Checkov и Terraform Validate для `terraform-infrastructure` — все 3 job успешно.*
+
+![Terraform Checks — bootstrap](docs/evidence/05-terraform-checks/28-terraform-checks-bootstrap.png)
+
+*TFLint, Checkov и Terraform Validate для `terraform-bootstrap` — все 3 job успешно.*
+
+---
+
 ## Проблемы и решения
 
 | Этап        | Проблема                                  | Решение                                              |
@@ -269,19 +283,167 @@ kubectl get ingress -n diploma
 
 ---
 
-## Прогресс проекта
+---
 
-**Текущий статус:** ~100%
+##  Disaster Recovery (DR) Plan
+
+Стратегия восстановления инфраструктуры и приложения после сбоев.
+
+###  Целевые показатели
+
+| Метрика | Значение | Описание |
+|---------|----------|----------|
+| **RTO** (Recovery Time Objective) | **≤ 30 минут** | Время восстановления инфраструктуры из кода |
+| **RPO** (Recovery Point Objective) | **≤ 24 часа** | Потеря данных при сбое (state, образы) |
+
+###  Что резервируется
+
+| Компонент | Где хранится | Частота бэкапа | Восстановление |
+|-----------|--------------|----------------|----------------|
+| **Terraform state (bootstrap)** | Локально + S3 (версионирование) | При каждом `apply` | `terraform apply` из кода |
+| **Terraform state (infrastructure)** | S3 bucket с версионированием | При каждом `apply` | `terraform init` + `apply` |
+| **Docker-образы** | Yandex Container Registry | При каждом push | `docker pull` из YCR |
+| **K8s-манифесты** | GitHub (`k8s/`) | При каждом коммите | `kubectl apply -f k8s/` |
+| **Мониторинг** | Helm chart + `monitoring-values.yaml` | При каждом коммите | `helm install` из чарта |
+| **Конфигурация CI/CD** | GitHub (`.github/workflows/`) | При каждом коммите | Автоматически |
+
+###  Сценарии восстановления
+
+#### 1. Потеря Kubernetes кластера
+
+**Что произошло:** кластер `diploma-k8s` удалён или повреждён.
+
+**План восстановления:**
+
+```bash
+# 1. Перейти в репозиторий infrastructure
+cd ~/diploma/terraform/infrastructure
+
+# 2. Восстановить кластер из кода (state в S3)
+terraform init
+terraform apply
+
+# 3. Дождаться создания кластера (~5 мин)
+yc managed-kubernetes cluster list
+
+# 4. Настроить kubectl
+yc managed-kubernetes cluster get-credentials diploma-k8s --external --force
+
+# 5. Задеплоить приложение
+kubectl apply -f ~/diploma/app/k8s/
+
+# 6. Установить мониторинг
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack \
+  -n monitoring -f ~/diploma/app/helm/monitoring-values.yaml
+```
+
+**Время восстановления:** ~20–30 минут.
+
+#### 2. Потеря S3 bucket (Terraform state)
+
+**Что произошло:** S3 bucket `diploma-tfstate-dudnikov-7efeef` удалён.
+
+**План восстановления:**
+
+```bash
+# 1. Перейти в bootstrap
+cd ~/diploma/terraform/bootstrap
+
+# 2. Восстановить bucket из кода
+terraform init
+terraform apply
+
+# 3. Для infrastructure — указать новый bucket
+cd ~/diploma/terraform/infrastructure
+# Обновить backend.tf: bucket = "<новый-bucket>"
+terraform init -reconfigure
+terraform apply
+```
+
+**Важно:** при потере state **инфраструктура НЕ удаляется** — она **остаётся** в облаке. Восстановление **state** — через `terraform import`.
+
+#### 3. Потеря Docker-образа
+
+**Что произошло:** образ `diploma-app` удалён из YCR.
+
+**План восстановления:**
+
+```bash
+# 1. Перейти в репозиторий приложения
+cd ~/diploma/app
+
+# 2. Пересобрать и запушить
+docker build -t cr.yandex/crp35inad6caauskik6q/diploma-app:v1.0.1 .
+docker push cr.yandex/crp35inad6caauskik6q/diploma-app:v1.0.1
+```
+
+**Или:** сделать `git push` → CI **соберёт** образ автоматически.
+
+**Время восстановления:** ~5 минут.
+
+#### 4. Потеря VirtualBox (рабочей машины)
+
+**Что произошло:** ВМ сломалась или удалена.
+
+**План восстановления:**
+
+```bash
+# 1. Восстановить из клона ВМ (snapshot)
+# Или создать новую ВМ + установить инструменты
+# (см. раздел "Быстрый старт" в README)
+
+# 2. Клонировать репозитории
+git clone https://github.com/DudnikovDaniil/diploma-app.git
+git clone https://github.com/DudnikovDaniil/terraform-bootstrap.git
+git clone https://github.com/DudnikovDaniil/terraform-infrastructure.git
+
+# 3. Восстановить секреты
+# ~/.yc-keys/ — ключи SA (из бэкапа)
+# ~/.kube/config — из YC CLI
+
+# 4. Продолжить работу
+```
+
+**Время восстановления:** ~30 минут.
+
+###  Чек-лист DR
+
+- [x] **Terraform state** — в S3 с версионированием
+- [x] **Docker-образы** — в YCR с версионированием
+- [x] **K8s-манифесты** — в Git
+- [x] **Конфигурация CI/CD** — в Git
+- [x] **Мониторинг** — Helm chart в Git
+- [x] **Секреты** — в GitHub Secrets (с планом миграции в Vault/Lockbox)
+
+###  Перспективы улучшения DR
+
+| Что добавить | Зачем |
+|--------------|-------|
+| **HashiCorp Vault / Yandex Lockbox** | Безопасное хранение и ротация секретов |
+| **Автоматический бэкап PV** | Для stateful-приложений |
+| **Terraform Cloud** | Remote state + планирование |
+| **ArgoCD** | GitOps для автоматического восстановления |
+| **Multi-region** | Геораспределённая отказоустойчивость |
+
+###  Вывод
+**Инфраструктура полностью восстанавливается из кода.** Все компоненты версионированы в Git, state — в S3, образы — в YCR. RTO ≤ 30 минут, RPO ≤ 24 часа. Для продакшена рекомендуется добавить Vault/Lockbox и автоматические бэкапы PV.
+
+---
+
+##  Прогресс проекта
+
+**Текущий статус:** **100%** 
 
 - [x] Подготовка рабочей машины
-- [x] Bootstrap Terraform
-- [x] Облачная инфраструктура
-- [x] Managed Kubernetes кластер
-- [x] Node group (3 ноды)
+- [x] Bootstrap Terraform (SA, роли, S3 bucket)
+- [x] Облачная инфраструктура (VPC, подсети, SG)
+- [x] Managed Kubernetes кластер (v1.33)
+- [x] Node Group (3 ноды в 3 зонах)
 - [x] Тестовое приложение + YCR
 - [x] Мониторинг (Prometheus + Grafana + Alertmanager)
-- [x] CI/CD (GitHub Actions)
+- [x] CI/CD (GitHub Actions) + TFLint/Checkov
 - [x] Финальные скриншоты и документация
+- [x] Disaster Recovery plan
 
 ---
 

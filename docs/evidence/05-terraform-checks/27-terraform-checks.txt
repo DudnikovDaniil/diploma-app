@@ -1,0 +1,16 @@
+=== Terraform Checks CI ===
+Workflow: Terraform Checks #2
+Commit: d987d76 (Fix: use variable for SSH key instead of file())
+Status: Success
+Duration: 30s
+Job 1: TFLint (8s) — Success
+Job 2: Checkov (28s) — Success (soft_fail, 6 warnings)
+Job 3: Terraform Validate (11s) — Success
+
+=== Checkov warnings (не ошибки) ===
+CKV_YC_19: allow-all в SG (для ingress — нормально)
+CKV_YC_10: etcd без KMS (для диплома — не критично)
+CKV_YC_14: SG не назначена кластеру
+CKV_YC_16: нет Network Policy
+CKV_YC_5: K8s с публичным IP (нужен для доступа)
+CKV_YC_6: Node Group с публичным IP (нужен для pull образов)

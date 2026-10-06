@@ -1,0 +1,8 @@
+=== Terraform Checks CI (bootstrap) ===
+Workflow: Terraform Checks #1
+Commit: 638d480 (Add TFLint, Checkov, Terraform Validate to CI)
+Status: Success
+Duration: 24s
+Job 1: TFLint (5s) — Success
+Job 2: Checkov (20s) — Success
+Job 3: Terraform Validate (7s) — Success
